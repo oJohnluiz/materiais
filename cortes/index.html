@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Cortes de live com o Claude · @ojoaorisso</title>
+<meta name="description" content="Passo a passo pra transformar uma live em 10 cortes verticais e um vídeo longo usando o Claude Code.">
+<meta property="og:title" content="Cortes de live com o Claude">
+<meta property="og:description" content="Uma live vira 10 vídeos curtos e um vídeo longo pro YouTube: o passo a passo com os prompts prontos.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0b0910">
+<link rel="preload" href="../assets/fonts/mont-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="aurora"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="wrap">
+ <header class="top"><a class="handle" href="https://instagram.com/ojoaorisso">@ojoaorisso</a><span class="chip">Passo a passo · Cortes</span></header>
+
+ <h1>Uma live vira <em>10 cortes</em> com o Claude</h1>
+ <p class="intro">O GTA 6 lança dia 19 e vai ter live de streamer o dia inteiro. Com o <b>Claude Code</b> você acha os melhores momentos, corta na vertical com legenda e ainda monta um vídeo longo pro YouTube. Toque em <b>Copiar</b> e cole no Claude.</p>
+
+ <div class="req">
+  <div><b>⚠ Só corte de quem permite.</b> Muitos streamers têm <b>programa de cortes</b> (as regras ficam no Discord ou na bio do canal). Siga as regras, dê crédito e coloque o link do canal. Sem autorização, sua conta pode cair.</div>
+  <div><b>Claude Code</b>instalado e logado. <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">claude.com/product/claude-code</a></div>
+  <div><b>Espaço livre</b>uma live longa ocupa alguns GB. Pra testar, comece com um trecho de 1 hora.</div>
+ </div>
+
+ <nav class="toc">
+  <a href="#instalar">01 Instalar</a><a href="#momentos">02 Achar momentos</a><a href="#aprovar">03 Aprovar</a><a href="#cortar">04 Cortar</a><a href="#longo">05 Vídeo longo</a><a href="#postar">06 Postar</a><a href="#skill">Bônus</a>
+ </nav>
+
+ <section class="item" id="instalar">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#5b6cff,#3340c4)">⬇</div><h2>Instalar as ferramentas<small>ffmpeg, yt-dlp e faster-whisper</small></h2><span class="num">01/06</span></div>
+  <p class="ds">São três ferramentas grátis: o <b>yt-dlp</b> baixa a live, o <b>faster-whisper</b> transcreve o que foi falado e o <b>ffmpeg</b> corta e monta os vídeos. O jeito mais fácil é pedir pro próprio Claude instalar.</p>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Instale o ffmpeg, o yt-dlp e o faster-whisper no meu computador e confirme que os três estão funcionando.</p></div>
+  <p class="step">Prefere instalar na mão? No terminal:</p>
+  <div class="code" data-copy="pip install -U yt-dlp faster-whisper"><pre>pip install -U yt-dlp faster-whisper</pre></div>
+  <p class="step">E o ffmpeg, no <b>Mac</b>:</p>
+  <div class="code"><pre>brew install ffmpeg</pre></div>
+  <p class="step">Ou no <b>Windows</b>:</p>
+  <div class="code"><pre>winget install Gyan.FFmpeg</pre></div>
+ </section>
+
+ <section class="item" id="momentos">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#e8865f,#b85a3a)">✳</div><h2>Achar os melhores momentos<small>prompt 1</small></h2><span class="num">02/06</span></div>
+  <p class="ds">Abra o terminal numa pasta nova, digite <b>claude</b> e mande o prompt abaixo trocando o link. O Claude baixa, transcreve e te devolve a lista dos momentos, sem cortar nada ainda.</p>
+  <div class="lb">Prompt 1</div>
+  <div class="ask"><p>Baixe a live deste link com o yt-dlp, em até 1080p: [COLE O LINK DA LIVE]. Pra testar, baixe só o trecho de 1:00:00 a 2:00:00. Depois transcreva o áudio com o faster-whisper, em português, com o horário de cada fala. Analise a transcrição e me mostre os 15 momentos mais fortes: reações, gritos, risadas, jogadas incríveis e momentos engraçados. Pra cada um, me dê o início, o fim (entre 20 e 60 segundos), um título curto e por que vale o corte. Não corte nada ainda, só me mostre a lista.</p></div>
+ </section>
+
+ <section class="item" id="aprovar">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#3ccf7e,#1f9157)">✓</div><h2>Você aprova<small>o olho humano decide</small></h2><span class="num">03/06</span></div>
+  <p class="ds">Leia a lista e escolha os números que valem a pena. Se quiser, peça ajustes do tipo "começa o 4 dez segundos antes" ou "troca o 7 por outro momento".</p>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Aprovo os momentos 1, 2, 4, 5, 7, 8, 10, 11, 13 e 14. No 4, começa 10 segundos antes.</p></div>
+ </section>
+
+ <section class="item" id="cortar">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#b46bff,#7a35d6)">✂</div><h2>Cortar na vertical<small>prompt 2</small></h2><span class="num">04/06</span></div>
+  <p class="ds">Agora o Claude corta os aprovados no formato de Reels, TikTok e Shorts, já com legenda.</p>
+  <div class="lb">Prompt 2</div>
+  <div class="ask"><p>Corte os momentos aprovados com o ffmpeg. Cada corte em vídeo vertical 1080x1920: o jogo no centro, a câmera do streamer em cima (se tiver) e uma legenda de uma linha, branca com sombra, na parte de baixo, usando a transcrição. Se não souber onde fica a câmera na tela, tire um print da live e me pergunte. Salve tudo numa pasta "cortes", com o nome numerado, e me mostre um print de cada um.</p></div>
+ </section>
+
+ <section class="item" id="longo">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#ff5a5a,#c62f2f)">▶</div><h2>O vídeo longo pro YouTube<small>prompt 3</small></h2><span class="num">05/06</span></div>
+  <p class="ds">Os mesmos momentos viram um compilado horizontal, com título, descrição e capítulos prontos.</p>
+  <div class="lb">Prompt 3</div>
+  <div class="ask"><p>Junte os momentos aprovados num vídeo horizontal 1920x1080 pro YouTube, em ordem cronológica, com uma transição curta entre eles. Escreva também o título, a descrição com os capítulos (00:00 e o nome de cada momento) e o crédito do streamer com o link do canal.</p></div>
+ </section>
+
+ <section class="item" id="postar">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#f5b23c,#c47d12)">✍</div><h2>Postar com crédito<small>modelo de legenda</small></h2><span class="num">06/06</span></div>
+  <p class="ds">Título curto que dá vontade de ver até o fim e o crédito sempre visível. Troque o que está entre colchetes:</p>
+  <div class="lb">Legenda</div>
+  <div class="ask"><p style="white-space:pre-line">[TÍTULO DO MOMENTO] 😱
+Corte da live de @[streamer]. Live completa no canal dele: [link]
+#gta6 #cortes #[streamer]</p></div>
+  <p class="warn">⚠ Confira as regras do programa de cortes: alguns pedem uma hashtag ou um texto específico, e alguns não deixam monetizar.</p>
+ </section>
+
+ <section class="item" id="skill">
+  <div class="hd"><div class="ic" style="background:#2b2733;border:1px solid rgba(255,255,255,.3);font-size:20px">★</div><h2>Bônus: vira uma skill<small>na próxima live é uma frase</small></h2><span class="num">+</span></div>
+  <p class="ds">Depois de fazer uma vez, peça pro Claude guardar o processo inteiro como uma skill. Na próxima live, você só manda o link.</p>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Transforme tudo o que fizemos hoje numa skill chamada "cortes", com os três prompts e o meu jeito de legenda, pra que eu só precise dizer: faz os cortes dessa live [link].</p></div>
+ </section>
+
+ <div class="end">
+  <b>Uma live de 10 horas vira 10 cortes e um vídeo longo, em poucos minutos.</b>
+  <p>Começa com um trecho curto pra pegar o jeito e depois solta na live inteira. Todo dia eu mostro um jeito novo de usar o Claude lá no perfil.</p>
+  <a class="btn" href="https://instagram.com/ojoaorisso" target="_blank" rel="noopener">Seguir @ojoaorisso</a>
+ </div>
+ <footer class="ft">@ojoaorisso · comenta CORTES no reel que eu te mando</footer>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

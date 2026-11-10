@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>5 plugins pro Claude · @ojoaorisso</title>
+<meta name="description" content="Os 5 plugins que dão superpoderes pro Claude, com o comando pra instalar e um exemplo de pedido.">
+<meta property="og:title" content="5 plugins que dão superpoderes pro Claude">
+<meta property="og:description" content="Remotion, Voicebox, Playwright, Context7 e Figma: o passo a passo de cada um.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0b0910">
+<link rel="preload" href="../assets/fonts/mont-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="aurora"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="wrap">
+ <header class="top"><a class="handle" href="https://instagram.com/ojoaorisso">@ojoaorisso</a><span class="chip">Guia · 5 plugins</span></header>
+
+ <h1>5 plugins que dão <em>superpoderes</em> pro Claude</h1>
+ <p class="intro">O comando pra instalar cada um no <b>Claude Code</b> e um exemplo do que pedir. Toque em <b>Copiar</b>, cole no terminal e pronto.</p>
+
+ <div class="req">
+  <div><b>1. Claude Code</b>instalado e logado. <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">claude.com/product/claude-code</a></div>
+  <div><b>2. Node.js</b>necessário pros comandos com npx. <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></div>
+  <div><b>3. Conferir</b>depois de instalar, digite <b>/mcp</b> dentro do Claude pra ver se conectou.</div>
+ </div>
+
+ <nav class="toc">
+  <a href="#remotion">01 Remotion</a><a href="#voicebox">02 Voicebox</a><a href="#playwright">03 Playwright</a><a href="#context7">04 Context7</a><a href="#figma">05 Figma</a>
+ </nav>
+
+ <section class="item" id="remotion">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#5b6cff,#3340c4)">▶</div><h2>Remotion<small>vídeo feito em código</small></h2><span class="num">01/05</span></div>
+  <p class="ds">Você descreve o vídeo e o Claude escreve e renderiza a animação inteira em código. Sem editor de vídeo.</p>
+  <div class="lb">Instalar</div>
+  <div class="code"><pre>npx create-video --yes --blank meu-video
+cd meu-video
+npx remotion skills add
+npm run dev</pre></div>
+  <p class="step">Depois, em outro terminal na mesma pasta, abra o Claude:</p>
+  <div class="code"><pre>claude</pre></div>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Crie um vídeo vertical de 15s com meu logo entrando e o slogan aparecendo embaixo.</p></div>
+  <div class="lb">Link</div>
+  <a class="lk" href="https://www.remotion.dev/docs/ai/claude-code" target="_blank" rel="noopener">remotion.dev ↗</a>
+ </section>
+
+ <section class="item" id="voicebox">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#b46bff,#7a35d6)">◉</div><h2>Voicebox<small>clona sua voz, grátis e open source</small></h2><span class="num">02/05</span></div>
+  <p class="ds">Faz o que o ElevenLabs faz, mas de graça e rodando no seu computador: clona sua voz com poucos segundos de áudio e o Claude passa a falar com ela.</p>
+  <div class="lb">Instalar</div>
+  <p class="step"><b>1.</b> Baixe e abra o app em <a class="lk" href="https://voicebox.sh" target="_blank" rel="noopener">voicebox.sh ↗</a></p>
+  <p class="step"><b>2.</b> Com o Voicebox aberto, conecte no Claude Code:</p>
+  <div class="code"><pre>claude mcp add --transport http voicebox http://127.0.0.1:17493/mcp --header "X-Voicebox-Client-Id: claude-code"</pre></div>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Lê esse roteiro com a minha voz clonada e salva o áudio.</p></div>
+  <p class="warn">⚠ Roda melhor em Mac com chip Apple (M1 ou superior) ou PC com placa de vídeo. Sem isso funciona, mas fica bem mais lento.</p>
+  <div class="lb">Link</div>
+  <a class="lk" href="https://github.com/jamiepine/voicebox" target="_blank" rel="noopener">github.com/jamiepine/voicebox ↗</a>
+ </section>
+
+ <section class="item" id="playwright">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#3ccf7e,#1f9157)">◎</div><h2>Playwright<small>o Claude mexe no navegador sozinho</small></h2><span class="num">03/05</span></div>
+  <p class="ds">O Claude abre o navegador, clica, preenche formulário e tira print, tudo sozinho. Ótimo pra testar site e automatizar tarefa repetitiva.</p>
+  <div class="lb">Instalar</div>
+  <div class="code"><pre>claude mcp add playwright npx @playwright/mcp@latest</pre></div>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Abre meu site, preenche o formulário de contato com dados de teste e me manda um print do resultado.</p></div>
+  <div class="lb">Link</div>
+  <a class="lk" href="https://github.com/microsoft/playwright-mcp" target="_blank" rel="noopener">github.com/microsoft/playwright-mcp ↗</a>
+ </section>
+
+ <section class="item" id="context7">
+  <div class="hd"><div class="ic" style="background:#2b2733;border:1px solid rgba(255,255,255,.3);font-size:15px">C7</div><h2>Context7<small>documentação sempre atualizada</small></h2><span class="num">04/05</span></div>
+  <p class="ds">Entrega pro Claude a documentação atualizada de qualquer ferramenta, aí ele para de inventar código velho.</p>
+  <div class="lb">Instalar</div>
+  <div class="code"><pre>npx ctx7 setup --claude</pre></div>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Monta essa integração com a versão mais nova da biblioteca. use context7</p></div>
+  <div class="lb">Link</div>
+  <a class="lk" href="https://github.com/upstash/context7" target="_blank" rel="noopener">github.com/upstash/context7 ↗</a>
+ </section>
+
+ <section class="item" id="figma">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#ff6b5b,#d9452f)">✦</div><h2>Figma<small>design vira código de verdade</small></h2><span class="num">05/05</span></div>
+  <p class="ds">Você cola o link do design e o Claude transforma a tela em código, seguindo cores, textos e espaçamentos do Figma.</p>
+  <div class="lb">Instalar</div>
+  <div class="code"><pre>claude mcp add --scope user --transport http figma https://mcp.figma.com/mcp</pre></div>
+  <p class="step">Depois, dentro do Claude: <b>/mcp</b> → figma → <b>Authenticate</b>.</p>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Transforma essa tela em código: [cole o link do frame do Figma]</p></div>
+  <div class="lb">Link</div>
+  <a class="lk" href="https://developers.figma.com/docs/figma-mcp-server/" target="_blank" rel="noopener">developers.figma.com ↗</a>
+ </section>
+
+ <div class="end">
+  <b>Juntando os cinco, o Claude cria vídeo, fala, navega, estuda e programa.</b>
+  <p>Instala um por vez, testa com o exemplo de pedido e só depois parte pro próximo. Todo dia eu mostro uma ferramenta nova lá no perfil.</p>
+  <a class="btn" href="https://instagram.com/ojoaorisso" target="_blank" rel="noopener">Seguir @ojoaorisso</a>
+ </div>
+ <footer class="ft">@ojoaorisso · comenta PLUGIN no reel que eu te mando</footer>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>

@@ -63,3 +63,4 @@ footer.ft{text-align:center;font-size:12px;color:#8f86a6;margin-top:28px}
 
 .toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,30px);opacity:0;background:#fff;color:#140d10;font-weight:700;font-size:13px;padding:10px 16px;border-radius:99px;transition:.25s;z-index:10}
 .toast.show{opacity:1;transform:translate(-50%,0)}
+.ask p{overflow-wrap:anywhere}

@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Animações em código com o Claude · @ojoaorisso</title>
+<meta name="description" content="A skill que transforma uma frase em animação 3D, aula animada ou vídeo, tudo em código, com o Claude Fable 5.2.">
+<meta property="og:title" content="Animações em código com o Claude">
+<meta property="og:description" content="A skill + o passo a passo pra criar animações e vídeos só pedindo pro Claude.">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0b0910">
+<link rel="preload" href="../assets/fonts/mont-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<div class="aurora"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
+<main class="wrap">
+ <header class="top"><a class="handle" href="https://instagram.com/ojoaorisso">@ojoaorisso</a><span class="chip">Skill · Fable 5.2</span></header>
+
+ <h1>Animações em <em>código</em> com o Claude</h1>
+ <p class="intro">Uma frase vira uma cena 3D, uma aula animada ou um vídeo pronto, sem After Effects e sem Blender. Aqui tem a <b>skill</b> que eu uso e o passo a passo. Toque em <b>Copiar</b> e cole no Claude.</p>
+
+ <div class="req">
+  <div><b>Claude Code</b>instalado e logado. <a href="https://claude.com/product/claude-code" target="_blank" rel="noopener">claude.com/product/claude-code</a></div>
+  <div><b>Node.js</b>pra gravar o vídeo. <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></div>
+  <div><b>ffmpeg</b>pra montar o MP4. Se não tiver, peça: "instale o ffmpeg no meu computador".</div>
+ </div>
+
+ <nav class="toc">
+  <a href="#modelo">01 Fable 5.2</a><a href="#skill">02 Skill</a><a href="#pedir">03 Pedir</a><a href="#mudar">04 Mudar</a><a href="#video">05 Prompts do vídeo</a>
+ </nav>
+
+ <section class="item" id="modelo">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#E8865F,#b4502f)">✳</div><h2>Escolher o Fable 5.2<small>o modelo novo da Anthropic</small></h2><span class="num">01/05</span></div>
+  <p class="ds">Abra o terminal numa pasta nova, digite <b>claude</b> e troque o modelo:</p>
+  <div class="code"><pre>/model</pre></div>
+  <p class="step">Escolha <b>Fable 5.2</b> na lista.</p>
+  <p class="warn">⚠ Se o Fable não aparecer, atualize o Claude Code e confira se o seu plano dá acesso a ele.</p>
+ </section>
+
+ <section class="item" id="skill">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#b46bff,#7a35d6)">★</div><h2>Instalar a skill<small>animacao-em-codigo</small></h2><span class="num">02/05</span></div>
+  <p class="ds">A skill ensina o Claude a montar a animação em código, conferir os quadros e gravar o MP4. O jeito mais fácil é pedir pro próprio Claude instalar:</p>
+  <div class="lb">Peça assim</div>
+  <div class="ask"><p>Baixe a skill deste link e instale como skill pessoal minha, na pasta ~/.claude/skills/animacao-em-codigo: https://ojohnluiz.github.io/materiais/fable/SKILL.md</p></div>
+  <p class="step">Prefere instalar na mão? No <b>Mac</b> ou <b>Linux</b>:</p>
+  <div class="code"><pre>mkdir -p ~/.claude/skills/animacao-em-codigo && curl -o ~/.claude/skills/animacao-em-codigo/SKILL.md https://ojohnluiz.github.io/materiais/fable/SKILL.md</pre></div>
+  <p class="step">Feche e abra o Claude de novo. Pra conferir, pergunte: <b>"quais skills você tem?"</b></p>
+  <div class="lb">A skill completa</div>
+  <div class="code"><pre style="max-height:260px;overflow:auto">---
+name: animacao-em-codigo
+description: Cria animações e vídeos (cenas 3D, aulas animadas, motion graphics, reels verticais) inteiramente em código, com HTML, canvas e CSS, e exporta em MP4 com Playwright e ffmpeg. Use quando o pedido for &quot;faz uma animação&quot;, &quot;cria um vídeo&quot;, &quot;anima essa ideia&quot; ou &quot;transforma isso numa aula animada&quot;.
+---
+
+# Animação em código
+
+Você transforma uma frase em um vídeo pronto, sem After Effects e sem Blender. Tudo é uma página HTML que desenha cada quadro a partir do tempo `t`, e um script grava os quadros e monta o MP4.
+
+## 1. Entenda o pedido (no máximo 2 perguntas)
+
+Se faltar, pergunte só:
+- Formato: vertical 1080x1920 (Reels/TikTok/Shorts, padrão) ou horizontal 1920x1080 (YouTube).
+- Duração: o padrão é 10 segundos.
+
+Se o pedido for claro, não pergunte nada e comece.
+
+## 2. Planeje as cenas antes do código
+
+Escreva uma lista curta, com o tempo de cada cena, por exemplo:
+- 0–3s: a cidade aparece em linhas e vai acendendo.
+- 3–7s: câmera anda pela rua, chuva e neon refletindo no chão.
+- 7–10s: um carro passa com o farol acendendo o asfalto.
+
+Mostre a lista e siga, a menos que a pessoa queira mudar.
+
+## 3. Construa a animação (regras)
+
+Crie a pasta `animacao/` com `index.html`, `render.js` e `README.md`.
+
+O `index.html`:
+- Tem o tamanho exato do vídeo (`width`/`height` no body e no canvas).
+- Expõe `window.TOTAL` (duração em segundos) e `window.render(t)`, que desenha o quadro do tempo `t`.
+- **Não usa** `requestAnimationFrame`, `Date.now()`, `Math.random()` solto nem transições CSS automáticas. Tudo depende só de `t`. Para aleatoriedade, use um gerador com semente fixa (ex.: `let s=7; const rnd=()=&gt;(s=s*16807%2147483647)/2147483647;`).
+- Inclui um modo de pré-visualização: se a URL tiver `?play`, roda `render` em loop com o relógio, só para olhar no navegador.
+
+Técnicas que deixam bonito:
+- **3D sem biblioteca**: projeção em perspectiva `x&#x27; = cx + f*x/z`, `y&#x27; = cy - f*(y-alturaCamera)/z`; desenhe do mais longe para o mais perto.
+- **Neon**: `ctx.shadowBlur` + `ctx.shadowColor` com a cor do letreiro, e `globalCompositeOperation=&#x27;lighter&#x27;` para o brilho somar.
+- **Chão molhado**: desenhe as luzes de novo espelhadas (`y → -y`) num canvas separado, aplique `filter=&#x27;blur(6px)&#x27;` e cole por cima do chão algumas vezes, um pouco deslocado para baixo.
+- **Chuva**: centenas de riscos finos cuja posição vem de `(y0 + velocidade*t) % altura`.
+- **Neblina**: misture a cor de cada objeto com a cor do céu conforme a distância.
+- **Movimento**: use easing (`easeOutCubic`, `easeInOutCubic`), nunca movimento linear em textos e cards.
+- **Texto na tela**: uma linha por vez, fonte grossa, sombra escura, sempre a pelo menos 60px da borda.
+- **Aula animada**: congele a cena, escureça o fundo e desenhe setas, ângulos e rótulos por cima, um de cada vez.
+
+## 4. Grave o vídeo
+
+`render.js` (Node + Playwright):
+
+```js
+const { chromium } = require(&#x27;playwright&#x27;);
+(async () =&gt; {
+  const b = await chromium.launch();
+  const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
+  await p.goto(&#x27;file://&#x27; + __dirname + &#x27;/index.html&#x27;);
+  await p.evaluate(() =&gt; document.fonts.ready);
+  const total = await p.evaluate(() =&gt; TOTAL), fps = 30;
+  require(&#x27;fs&#x27;).mkdirSync(__dirname + &#x27;/frames&#x27;, { recursive: true });
+  for (let i = 0; i &lt; Math.ceil(total * fps); i++) {
+    await p.evaluate(t =&gt; render(t), i / fps);
+    await p.screenshot({ path: `${__dirname}/frames/${String(i).padStart(5, &#x27;0&#x27;)}.jpg`, type: &#x27;jpeg&#x27;, quality: 92 });
+  }
+  await b.close();
+})();
+```
+
+Depois:
+
+```bash
+npm i playwright &amp;&amp; npx playwright install chromium
+node render.js
+ffmpeg -y -framerate 30 -i frames/%05d.jpg -c:v libx264 -crf 18 -pix_fmt yuv420p video.mp4
+```
+
+Se a pessoa mandar um áudio (narração ou música), junte com `-i audio.m4a -c:a aac -shortest`.
+
+## 5. Confira antes de entregar
+
+- Tire 4 ou 5 prints em tempos diferentes (`render(t)` + screenshot) e olhe: texto cortado, coisa sobrando na borda, cena vazia.
+- Corrija e só então grave o vídeo inteiro.
+- Entregue o `video.mp4` e diga em uma frase como mudar algo (ex.: &quot;troque a cor do neon na linha 12&quot;).
+
+## 6. Pedidos de mudança
+
+&quot;Coloca um carro passando&quot;, &quot;deixa mais lento&quot;, &quot;muda pra aula&quot;: altere só o que foi pedido, mostre um print do quadro novo e grave de novo.
+</pre></div>
+ </section>
+
+ <section class="item" id="pedir">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#5b6cff,#3340c4)">▶</div><h2>Pedir a animação<small>uma frase basta</small></h2><span class="num">03/05</span></div>
+  <p class="ds">Descreva o que você quer ver. Quanto mais clara a cena, melhor fica.</p>
+  <div class="lb">Cena 3D</div>
+  <div class="ask"><p>Faz uma animação vertical de 10 segundos: uma rua de Tóquio à noite, com neon, chuva e o chão molhado refletindo as luzes.</p></div>
+  <div class="lb">Aula animada</div>
+  <div class="ask"><p>Faz uma aula animada de 20 segundos explicando como funciona o juro composto, com um gráfico crescendo e uma frase por vez na tela.</p></div>
+  <div class="lb">Pro seu negócio</div>
+  <div class="ask"><p>Faz um vídeo vertical de 8 segundos com o nome da minha empresa [NOME] aparecendo em letras de neon numa parede de tijolos, com o slogan [SLOGAN] embaixo.</p></div>
+ </section>
+
+ <section class="item" id="mudar">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#3ccf7e,#1f9157)">✎</div><h2>Pedir mudanças<small>conversa normal</small></h2><span class="num">04/05</span></div>
+  <p class="ds">Depois da primeira versão, é só pedir em português. O Claude mexe só no que você pediu e te mostra um print antes de gravar de novo.</p>
+  <div class="ask"><p>Agora coloca um carro passando, com o farol acendendo o asfalto.</p></div>
+  <div class="ask" style="margin-top:10px"><p>Deixa a câmera mais lenta e troca o neon rosa por azul.</p></div>
+ </section>
+
+ <section class="item" id="video">
+  <div class="hd"><div class="ic" style="background:linear-gradient(150deg,#ff3d8b,#b8205e)">✦</div><h2>Os prompts do vídeo<small>na ordem em que eu mandei</small></h2><span class="num">05/05</span></div>
+  <p class="ds">Manda um de cada vez, esperando o Claude terminar o anterior.</p>
+  <div class="lb">1</div>
+  <div class="ask"><p>Faz uma animação vertical: uma rua de Tóquio à noite, com neon e chuva.</p></div>
+  <div class="lb">2</div>
+  <div class="ask"><p>Agora coloca um carro passando.</p></div>
+  <div class="lb">3</div>
+  <div class="ask"><p>Agora transforma isso numa aula sobre como a luz reflete no chão molhado: congela a cena, escurece o fundo e desenha os raios de luz e os ângulos.</p></div>
+ </section>
+
+ <div class="end">
+  <b>Uma frase vira vídeo. O resto é você pedindo ajuste.</b>
+  <p>Começa com uma cena curta de 10 segundos e vai aumentando. Todo dia eu mostro um jeito novo de usar o Claude lá no perfil.</p>
+  <a class="btn" href="https://instagram.com/ojoaorisso" target="_blank" rel="noopener">Seguir @ojoaorisso</a>
+ </div>
+ <footer class="ft">@ojoaorisso · comenta FABLE no reel que eu te mando</footer>
+</main>
+<script src="../assets/app.js"></script>
+</body>
+</html>
